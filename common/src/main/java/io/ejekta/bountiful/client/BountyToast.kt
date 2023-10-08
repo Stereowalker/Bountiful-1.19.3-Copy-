@@ -3,6 +3,7 @@ package io.ejekta.bountiful.client
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.toast.Toast
 import net.minecraft.client.toast.ToastManager
@@ -26,7 +27,8 @@ class BountyToast(
     private var progress = 0f
     override fun draw(matrices: MatrixStack, manager: ToastManager, startTime: Long): Toast.Visibility {
         RenderSystem.setShaderTexture(0, TEXTURE)
-        DrawableHelper.drawTexture(matrices, 0, 0, 0, 96, this.width, this.height)
+        val helper: DrawableHelper = if (manager.client.currentScreen != null) manager.client.currentScreen!! else manager.client.inGameHud
+            helper.drawTexture(matrices, 0, 0, 0, 96, this.width, this.height)
         type.drawIcon(matrices, 6, 6)
         if (description == null) {
             manager.client.textRenderer.draw(matrices, title, 30.0f, 12.0f, -11534256)
@@ -65,7 +67,8 @@ class BountyToast(
 
         fun drawIcon(matrices: MatrixStack?, x: Int, y: Int) {
             RenderSystem.enableBlend()
-            DrawableHelper.drawTexture(matrices, x, y, 176 + textureSlotX * 20, textureSlotY * 20, 20, 20)
+            val helper: DrawableHelper = if (MinecraftClient.getInstance().currentScreen != null) MinecraftClient.getInstance().currentScreen!! else MinecraftClient.getInstance().inGameHud
+            helper.drawTexture(matrices, x, y, 176 + textureSlotX * 20, textureSlotY * 20, 20, 20)
         }
     }
 

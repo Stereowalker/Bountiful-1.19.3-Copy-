@@ -28,7 +28,7 @@ class BoardScreenHandler @JvmOverloads constructor(
         return inventory.canPlayerUse(player)
     }
 
-    override fun onClosed(player: PlayerEntity?) {
+    override fun close(player: PlayerEntity?) {
         inventory.onClose(player)
     }
 

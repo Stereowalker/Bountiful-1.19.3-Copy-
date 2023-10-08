@@ -68,11 +68,11 @@ data class KGuiDsl(val ctx: KGui, val matrices: MatrixStack, val mouseX: Int, va
     }
 
     fun itemStackIcon(stack: ItemStack, x: Int = 0, y: Int = 0) {
-        itemRenderer.renderInGui(matrices, stack, ctx.absX(x), ctx.absY(y))
+        itemRenderer.renderInGui(stack, ctx.absX(x), ctx.absY(y))
     }
 
     fun itemStackOverlay(stack: ItemStack, x: Int = 0, y: Int = 0) {
-        itemRenderer.renderGuiItemOverlay(matrices, textRenderer, stack, x, y)
+        itemRenderer.renderGuiItemOverlay(textRenderer, stack, x, y)
     }
 
     fun itemStack(stack: ItemStack, x: Int = 0, y: Int = 0) {
@@ -155,7 +155,7 @@ data class KGuiDsl(val ctx: KGui, val matrices: MatrixStack, val mouseX: Int, va
             true,
             matrixStack.peek().positionMatrix,
             immediate,
-            TextRenderer.TextLayerType.NORMAL,
+            false,
             0,
             LightmapTextureManager.MAX_LIGHT_COORDINATE
         )
@@ -188,7 +188,6 @@ data class KGuiDsl(val ctx: KGui, val matrices: MatrixStack, val mouseX: Int, va
         val dims = entity.getDimensions(entity.pose)
         val maxDim = (1 / max(dims.height, dims.width) * 1 * size).toInt().coerceAtLeast(1)
         InventoryScreen.drawEntity(
-            matrices,
             ctx.absX(x),
             ctx.absY(y),
             maxDim,
